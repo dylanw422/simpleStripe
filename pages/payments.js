@@ -61,7 +61,8 @@ export default function Payments() {
           </Flex>
         </Flex>
         <Flex h='80vh' direction='column' justify='center' align='center'>
-            <Heading mb={10}>Test Payment</Heading>
+            <Heading>Test Payment</Heading>
+            <Text mb={10}>Use Card: 4242 4242 4242 4242</Text>
             {clientSecret && (
                 <Elements options={options} stripe={stripePromise}>
                     <CheckoutForm />

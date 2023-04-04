@@ -1,11 +1,14 @@
+import React, { useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Image, VStack, StackDivider, Tooltip, Text, Heading, Flex, Box, Button, Input, InputGroup, InputLeftElement, Spacer, Grid, GridItem, useToast, useDisclosure, ColorModeScript, useColorMode } from '@chakra-ui/react'
+import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton } from '@chakra-ui/react'
+import { MoonIcon, SunIcon, SearchIcon, EmailIcon, LockIcon, InfoIcon } from '@chakra-ui/icons'
 
 export default function Home() {
+  const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode()
   return (
     <>
       <Head>
@@ -15,108 +18,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+        <Flex minWidth='40%' alignItems='center' justifyContent='space-between'>
+          <Box p='2'>
+            <Heading size='md'>Stripe App</Heading>
+          </Box>
+          <Flex justifyContent='space-between' align='center'>
+            <Button marginRight={5} colorScheme='purple' borderRadius='md' onClick={() => toast({ title: 'Account created.', description: "We've created your account for you.", status: 'success', duartion: 5000, isClosable: true, position: 'top'})}>Sign Up</Button>
+            <Button mr={5} colorScheme='pink' borderRadius='md' onClick={() => toast({title: 'Error.', description: "We can't sign you in right now. Try again later", status: 'error', duration: 5000, isClosable: true, position: 'top'})}>Log In</Button>
+            {colorMode === 'light' ? <MoonIcon boxSize={5} color='black' onClick={toggleColorMode}/> : <SunIcon boxSize={5} color='white' onClick={toggleColorMode}/>}
+          </Flex>
+        </Flex>
+        <Flex h='90vh' direction='column' justify='center' align='center'>
+          <Heading size='2xl'>Payments Made Easy. Just For You</Heading>
+          <Image src='/images/wallet.png' boxSize={500}/>
+          <Button onClick={onOpen}>See What We Offer</Button>
+        </Flex>
+        <Drawer placement='left' isOpen={isOpen} onClose={onClose}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth='1px'>Explore Stripe App</DrawerHeader>
+            <DrawerBody>
+              <Flex direction='column' align='center'>
+                <Button w='100%' onClick={() => window.location.href='/payments'}>Make A Payment</Button>
+              </Flex>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       </main>
     </>
   )

@@ -57,9 +57,7 @@ export default function Payments() {
             <Heading size='md' onClick={() => window.location.href='/'}>Stripe App</Heading>
           </Box>
           <Flex justifyContent='space-between' align='center'>
-          {isAuthenticated ? <Text mr={5}>Hello, {user.nickname}</Text> : null}
-            {isAuthenticated ? <Button mr={5} borderRadius='md' onClick={() => logout()}>Log Out</Button> : <Button mr={5} colorScheme='pink' borderRadius='md' onClick={() => loginWithPopup()}>Log In</Button>}
-            {colorMode === 'light' ? <MoonIcon boxSize={5} color='black' onClick={toggleColorMode}/> : <SunIcon boxSize={5} color='white' onClick={toggleColorMode}/>}
+          {colorMode === 'light' ? <MoonIcon boxSize={5} color='black' onClick={toggleColorMode}/> : <SunIcon boxSize={5} color='white' onClick={toggleColorMode}/>}
           </Flex>
         </Flex>
         <Flex h='80vh' direction='column' justify='center' align='center'>

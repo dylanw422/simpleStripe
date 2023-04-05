@@ -5,6 +5,7 @@ import { Image, VStack, StackDivider, Tooltip, Text, Heading, Flex, Box, Button,
 import { MoonIcon, SunIcon, SearchIcon, EmailIcon, LockIcon, InfoIcon } from '@chakra-ui/icons'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import CheckoutForm from '@/components/CheckoutForm'
 
@@ -15,6 +16,7 @@ export default function Payments() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
   const [clientSecret, setClientSecret] = useState('')
+  const { loginWithPopup, logout, user, isAuthenticated } = useAuth0()
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -55,8 +57,8 @@ export default function Payments() {
             <Heading size='md' onClick={() => window.location.href='/'}>Stripe App</Heading>
           </Box>
           <Flex justifyContent='space-between' align='center'>
-            <Button marginRight={5} colorScheme='purple' borderRadius='md' onClick={() => toast({ title: 'Account created.', description: "We've created your account for you.", status: 'success', duartion: 5000, isClosable: true, position: 'top'})}>Sign Up</Button>
-            <Button mr={5} colorScheme='pink' borderRadius='md' onClick={() => toast({title: 'Error.', description: "We can't sign you in right now. Try again later", status: 'error', duration: 5000, isClosable: true, position: 'top'})}>Log In</Button>
+          {isAuthenticated ? <Text mr={5}>Hello, {user.nickname}</Text> : null}
+            {isAuthenticated ? <Button mr={5} borderRadius='md' onClick={() => logout()}>Log Out</Button> : <Button mr={5} colorScheme='pink' borderRadius='md' onClick={() => loginWithPopup()}>Log In</Button>}
             {colorMode === 'light' ? <MoonIcon boxSize={5} color='black' onClick={toggleColorMode}/> : <SunIcon boxSize={5} color='white' onClick={toggleColorMode}/>}
           </Flex>
         </Flex>
